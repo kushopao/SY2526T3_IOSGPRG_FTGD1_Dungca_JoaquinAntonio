@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    List<Enemy> _enemies;
+    //List<Enemy> _enemies;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Enemy enemy = collision.gameObject.GetComponent<Enemy>();
-        //_enemies.Add(enemy);
-
 
         if (enemy != null)
         {

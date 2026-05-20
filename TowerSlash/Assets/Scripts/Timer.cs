@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 
 public class Timer : MonoBehaviour
 {
@@ -24,8 +25,10 @@ public class Timer : MonoBehaviour
     {
         //StartCoroutine(CO_CountDownTimer(60));
         //StartCoroutine(CO_CountUpTimer(0));
-        StartCoroutine(CO_ArrowRotation());
-        StartCoroutine(CO_SpawnEnemyEveryXSeconds(5));
+        //StartCoroutine(CO_ArrowRotation());
+        //StartCoroutine(CO_SpawnEnemyEveryXSeconds(5));
+        StartCoroutine(CO_SpawnArrow(Color.red));
+
     }
 
     private IEnumerator CO_SpawnEnemyEveryXSeconds(float seconds)
@@ -47,18 +50,30 @@ public class Timer : MonoBehaviour
         }
     }
 
+    private IEnumerator CO_SpawnArrow(Color color)
+    {
+        int index = 0;  
+
+        while (!_detectedByPlayer)
+        { 
+            index = Random.Range(0, _arrowSprites.Count);
+
+            _spriteRenderer.sprite = _arrowSprites[index];
+            _spriteRenderer.color = color;
+
+            yield return new WaitForSecondsRealtime(1f);
+        }
+    }
+
+    // This is for the Yellow Arrow
     private IEnumerator CO_ArrowRotation()
     {
         int index = 0;
-        bool isColorGreen = true;
-        _spriteRenderer.color = Color.green;
 
         while (!_detectedByPlayer)
         {
             _spriteRenderer.sprite = _arrowSprites[index % 4];
             index++;
-            isColorGreen = !isColorGreen;
-            _spriteRenderer.color = isColorGreen? Color.green: Color.red;
             yield return new WaitForSecondsRealtime(1f);
         }
     }
