@@ -52,5 +52,13 @@ public class SwipeDetection : MonoBehaviour
         {
             Debug.Log("Player Swiped Right");
         }
+        else if (_touchEnd.y < _touchStart.y)
+        {
+            Debug.Log("Player Swiped Down");
+        }
+        else if (_touchEnd.y > _touchStart.y)
+        {
+            Debug.Log("Player Swiped Up");
+        }
     }
 }

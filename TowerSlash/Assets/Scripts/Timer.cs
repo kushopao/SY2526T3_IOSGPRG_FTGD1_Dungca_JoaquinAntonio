@@ -24,7 +24,7 @@ public class Timer : MonoBehaviour
     {
         //StartCoroutine(CO_CountDownTimer(60));
         //StartCoroutine(CO_CountUpTimer(0));
-        //StartCoroutine(CO_ArrowRotation());
+        StartCoroutine(CO_ArrowRotation());
         StartCoroutine(CO_SpawnEnemyEveryXSeconds(5));
     }
 
@@ -50,11 +50,15 @@ public class Timer : MonoBehaviour
     private IEnumerator CO_ArrowRotation()
     {
         int index = 0;
+        bool isColorGreen = true;
+        _spriteRenderer.color = Color.green;
 
         while (!_detectedByPlayer)
         {
             _spriteRenderer.sprite = _arrowSprites[index % 4];
             index++;
+            isColorGreen = !isColorGreen;
+            _spriteRenderer.color = isColorGreen? Color.green: Color.red;
             yield return new WaitForSecondsRealtime(1f);
         }
     }
@@ -66,7 +70,7 @@ public class Timer : MonoBehaviour
         while (_currentTime > 0)
         {
             Debug.Log($"Current Time: {_currentTime}");
-            yield return new WaitForSeconds(1); // WaitForSecondsRealTime(1f); updaates based on ur system's time
+            yield return new WaitForSeconds(1); // WaitForSecondsRealtime(1f); updaates based on ur system's time
             _currentTime--;
         }
 
