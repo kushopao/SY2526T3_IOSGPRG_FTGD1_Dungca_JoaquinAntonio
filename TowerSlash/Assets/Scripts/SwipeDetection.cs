@@ -3,6 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+public enum SwipeType
+{
+    UP
+    , RIGHT
+    , DOWN
+    , LEFT
+    , NONE
+}
+
 public class SwipeDetection : MonoBehaviour
 {
     [SerializeField] private PlayerInput _playerInput;
@@ -12,6 +21,11 @@ public class SwipeDetection : MonoBehaviour
 
     private Vector2 _touchStart;
     private Vector2 _touchEnd;
+    private Vector2 _distance;
+
+    [SerializeField] private float minDistance = 50f;
+
+    public SwipeType swipeType;
 
     private void Awake()
     {
@@ -44,13 +58,63 @@ public class SwipeDetection : MonoBehaviour
         _touchEnd = _touchPositionAction.ReadValue<Vector2>();
         //Debug.Log($"Released: {_touchEnd}");
 
-        if (_touchEnd.x < _touchStart.x)
+        DetectSwipe();
+    }
+
+    private void DetectSwipe()
+    {
+        _distance = _touchStart - _touchEnd;
+
+        if (_distance.magnitude >= minDistance)
         {
-            Debug.Log("Player Swiped Left");
+            CheckDirection();
         }
-        else if (_touchEnd.x > _touchStart.x)
+        else
         {
-            Debug.Log("Player Swiped Right");
+            return;
+        }
+    }
+
+    private void CheckDirection()
+    {
+        float x = _distance.x;
+        float y = _distance.y;
+
+        if (Mathf.Abs(x) > Mathf.Abs(y))
+        {
+            if (x > 0)
+            {
+                swipeType = SwipeType.LEFT;
+            }
+            else
+            {
+                swipeType = SwipeType.RIGHT;
+            }
+        }
+        else
+        {
+            if (y > 0)
+            {
+                swipeType = SwipeType.DOWN;
+            }
+            else
+            {
+                swipeType = SwipeType.UP;
+            }
+        }
+
+            /*if (_touchEnd.x < _touchStart.x)
+            {
+                swipeType = SwipeType.LEFT;
+            }
+            else if (_touchEnd.x > _touchStart.x)
+            {
+                swipeType = SwipeType.RIGHT;
+            }
+            */
+
+            Debug.Log($"Swipe Type = {swipeType}");
+            _distance = Vector2.zero;
         }
         else if (_touchEnd.y < _touchStart.y)
         {
@@ -61,4 +125,3 @@ public class SwipeDetection : MonoBehaviour
             Debug.Log("Player Swiped Up");
         }
     }
-}

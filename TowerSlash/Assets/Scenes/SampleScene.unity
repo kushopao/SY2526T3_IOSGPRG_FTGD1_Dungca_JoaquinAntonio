@@ -153,6 +153,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerInput: {fileID: 19516107}
+  minDistance: 50
+  swipeType: 0
 --- !u!114 &19516107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -341,6 +343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0ed416a3edb3cb46b61b26ad362653f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _enemyList: []
 --- !u!1 &178130204
 GameObject:
   m_ObjectHideFlags: 0

@@ -38,14 +38,14 @@ public class Timer : MonoBehaviour
         while (true)
         {
             currentTime += Time.deltaTime;
-            Debug.Log($"spawnTimer: {currentTime} seconds");
+            //Debug.Log($"spawnTimer: {currentTime} seconds");
 
             if (currentTime >= seconds)
             {
                 Spawner.Instance.SpawnEnemy();
                 currentTime = 0;
             }
-
+                 
             yield return new WaitForEndOfFrame();
         }
     }

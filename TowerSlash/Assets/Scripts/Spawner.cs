@@ -19,7 +19,7 @@ public class Spawner : Singleton<Spawner>
     }
 
     public void RemoveEnemyFromList(Enemy enemy)
-    {
+    {         
         _enemies.Remove(enemy.gameObject);
     }
 }
