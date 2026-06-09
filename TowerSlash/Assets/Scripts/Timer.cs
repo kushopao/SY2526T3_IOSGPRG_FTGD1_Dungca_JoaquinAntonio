@@ -26,7 +26,7 @@ public class Timer : MonoBehaviour
         //StartCoroutine(CO_CountDownTimer(60));
         //StartCoroutine(CO_CountUpTimer(0));
         //StartCoroutine(CO_ArrowRotation());
-        StartCoroutine(CO_SpawnEnemyEveryXSeconds(5));
+        StartCoroutine(CO_SpawnEnemyEveryXSeconds(2));
         //StartCoroutine(CO_SpawnArrow(Color.red));
 
     }

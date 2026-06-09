@@ -16,6 +16,7 @@ public enum EnemyType
 {
     GREEN = 0
     , RED = 1
+    , YELLOW = 2
 }
 
 public class Enemy : MonoBehaviour
@@ -28,9 +29,9 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] SpriteRenderer arrowObject;
     [SerializeField] private List<Sprite> _arrowSprites = new List<Sprite>();
-    [SerializeField] GameObject _blackBox;
+    [SerializeField] private GameObject _blackBox;
 
-    [SerializeField] private Player player;
+    [SerializeField] private Player _player;
 
     [SerializeField] public SwipeDetection swipeDetection;
     [SerializeField] private bool _isSwipable = false;
@@ -43,9 +44,9 @@ public class Enemy : MonoBehaviour
         //_health = Random.Range(0, 100);
         //_speed = Random.Range(1, 10);
 
-        if (!player)
+        if (!_player)
         {
-            player = GameManager.Instance.Player;
+            _player = GameManager.Instance.Player;
         }
 
         if (!swipeDetection)
@@ -54,12 +55,12 @@ public class Enemy : MonoBehaviour
         }
 
         _enemyType = (EnemyType)Random.Range(0, System.Enum.GetValues(typeof(EnemyType)).Length);
-        Debug.Log($"Enemy Type Initialized: {_enemyType}");
+        //Debug.Log($"Enemy Type Initialized: {_enemyType}");
 
         ApplyArrowType(_enemyType);
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         transform.Translate((Vector3)_direction * _speed * Time.deltaTime);
 
@@ -69,15 +70,37 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    private IEnumerator CO_RotateArrow()
+    {
+        int index = 0;
+        int arrowCount = _arrowSprites.Count;
+
+        while (!_isSwipable)
+        {
+            arrowObject.sprite = _arrowSprites[index % arrowCount];
+            index++;
+            yield return new WaitForSeconds(0.25f);
+
+        }
+
+        _arrowType = (ArrowType)((index - 1 + arrowCount) % arrowCount);
+    }
+
     private void ApplyArrowType(EnemyType enemyTypeNumber)
     {
         switch (enemyTypeNumber)
         {
             case EnemyType.GREEN:
                 arrowObject.color = Color.green;
+                SetRandomArrowDirection();
                 break;
             case EnemyType.RED:
                 arrowObject.color = Color.red;
+                SetRandomArrowDirection();
+                break;
+            case EnemyType.YELLOW:
+                arrowObject.color = Color.yellow;
+                StartCoroutine(CO_RotateArrow());
                 break;
         }
     }
@@ -131,12 +154,20 @@ public class Enemy : MonoBehaviour
                         break;
                 }
                 break;
+            case EnemyType.YELLOW:
+                {
+                    if ((int)_arrowType == (int)swipeDetection.swipeType)
+                    {
+                        KillEnemy();
+                    }
+                }
+                break;
         }
     }
 
     private void KillEnemy()
     {
-        player.OnEnemyExit(this.gameObject);
+        _player.OnEnemyExit(this.gameObject);
         Destroy(gameObject);
 
         _isSwipable = false;
@@ -152,7 +183,7 @@ public class Enemy : MonoBehaviour
             _isSwipable = true;
             _blackBox.SetActive(true);
 
-            player.OnEnemyEnter(this.gameObject);
+            _player.OnEnemyEnter(this.gameObject);
         }
     }
 
@@ -162,7 +193,7 @@ public class Enemy : MonoBehaviour
         {
             _isSwipable = false;
 
-            player.OnEnemyExit(this.gameObject);
+            _player.OnEnemyExit(this.gameObject);
         }
     }
 }

@@ -115,7 +115,7 @@ public class SwipeDetection : MonoBehaviour
             }
             */
 
-            Debug.Log($"Swipe Type = {swipeType}");
+            //Debug.Log($"Swipe Type = {swipeType}");
             _distance = Vector2.zero;
         }
     }
