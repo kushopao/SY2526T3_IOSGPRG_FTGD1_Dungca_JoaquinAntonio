@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using UnityEngine;
 
@@ -27,17 +28,30 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] SpriteRenderer arrowObject;
     [SerializeField] private List<Sprite> _arrowSprites = new List<Sprite>();
-    [SerializeField] private GameObject _blackBox;
+    [SerializeField] GameObject _blackBox;
 
     [SerializeField] private Player player;
 
     [SerializeField] public SwipeDetection swipeDetection;
     [SerializeField] private bool _isSwipable = false;
 
+    private float _speed = 2.5f;
+    private Vector2 _direction = Vector2.down;
+
     public void Initialize()
     {
         //_health = Random.Range(0, 100);
         //_speed = Random.Range(1, 10);
+
+        if (!player)
+        {
+            player = GameManager.Instance.Player;
+        }
+
+        if (!swipeDetection)
+        {
+            swipeDetection = GameManager.Instance.SwipeDetection;
+        }
 
         _enemyType = (EnemyType)Random.Range(0, System.Enum.GetValues(typeof(EnemyType)).Length);
         Debug.Log($"Enemy Type Initialized: {_enemyType}");
@@ -45,8 +59,10 @@ public class Enemy : MonoBehaviour
         ApplyArrowType(_enemyType);
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
+        transform.Translate((Vector3)_direction * _speed * Time.deltaTime);
+
         if (_isSwipable)
         {
             CheckPlayerSwipe();
@@ -124,11 +140,13 @@ public class Enemy : MonoBehaviour
         Destroy(gameObject);
 
         _isSwipable = false;
+
+        Debug.Log("Enemy Killed");
     }
 
-    void OnPlayerEnter(Collider2D collision)
+    public void OnPlayerEnter(Collider2D collision)
     {
-        if (collision.gameObject.name.Contains("Player"))
+        if (collision != null)
         {
             swipeDetection.swipeType = SwipeType.NONE;
             _isSwipable = true;
@@ -138,9 +156,9 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void onPlayerExit(Collider2D collision)
+    public void OnPlayerExit(Collider2D collision)
     {
-        if (collision.gameObject.name.Contains("Player"))
+        if (collision != null)
         {
             _isSwipable = false;
 

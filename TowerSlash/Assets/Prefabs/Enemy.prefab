@@ -283,7 +283,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: a573a9831469b464f8d6031f3456581b, type: 3}
   - {fileID: 21300000, guid: 0ddd350261c586d429a3ec1820883a20, type: 3}
   - {fileID: 21300000, guid: 628f98c37ce831e419967627c33d0535, type: 3}
-  _blackBox: {fileID: 0}
+  _blackBox: {fileID: 4501327844438193513}
   player: {fileID: 0}
   swipeDetection: {fileID: 0}
   _isSwipable: 0
@@ -432,7 +432,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: c115750f56c6a3a4d8ce8a85afb41d18, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

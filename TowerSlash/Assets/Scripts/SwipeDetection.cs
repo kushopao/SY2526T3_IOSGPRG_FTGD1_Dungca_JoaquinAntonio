@@ -29,6 +29,8 @@ public class SwipeDetection : MonoBehaviour
 
     private void Awake()
     {
+        GameManager.Instance.SwipeDetection = this;
+
         _touchPressedAction = _playerInput.actions["TouchPress"];
         _touchPositionAction = _playerInput.actions["TouchPosition"];
     }
@@ -115,13 +117,5 @@ public class SwipeDetection : MonoBehaviour
 
             Debug.Log($"Swipe Type = {swipeType}");
             _distance = Vector2.zero;
-        }
-        else if (_touchEnd.y < _touchStart.y)
-        {
-            Debug.Log("Player Swiped Down");
-        }
-        else if (_touchEnd.y > _touchStart.y)
-        {
-            Debug.Log("Player Swiped Up");
         }
     }

@@ -7,6 +7,11 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private List<GameObject> _enemyList = new List<GameObject>();
 
+    private void Awake()
+    {
+        GameManager.Instance.Player = this;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Enemy enemy = collision.gameObject.GetComponent<Enemy>();
@@ -15,6 +20,8 @@ public class Player : MonoBehaviour
         {
             Spawner.Instance.RemoveEnemyFromList(enemy);
             Destroy(enemy.gameObject);
+
+            Debug.Log("Bro did not hit it");
         }
     }
 
