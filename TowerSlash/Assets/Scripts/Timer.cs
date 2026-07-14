@@ -26,9 +26,23 @@ public class Timer : MonoBehaviour
         //StartCoroutine(CO_CountDownTimer(60));
         //StartCoroutine(CO_CountUpTimer(0));
         //StartCoroutine(CO_ArrowRotation());
-        StartCoroutine(CO_SpawnEnemyEveryXSeconds(2));
+        //StartCoroutine(CO_SpawnEnemyEveryXSeconds(2));
         //StartCoroutine(CO_SpawnArrow(Color.red));
 
+        StartCoroutine(CO_SpawnAtRandomIntervals());
+    }
+
+    private IEnumerator CO_SpawnAtRandomIntervals()
+    {
+        while (true)
+        {
+            float randomDelay = Random.Range(1.5f, 4.5f);
+            Debug.Log($"Random Delay: {randomDelay} seconds");
+
+            yield return new WaitForSecondsRealtime(randomDelay);
+
+            Spawner.Instance.SpawnEnemy();
+        }
     }
 
     private IEnumerator CO_SpawnEnemyEveryXSeconds(float seconds)

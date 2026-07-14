@@ -22,7 +22,6 @@ public enum EnemyType
 public class Enemy : MonoBehaviour
 {
     //[SerializeField] private int _health;
-    //[SerializeField] private int _speed;
 
     [SerializeField] private ArrowType _arrowType;
     [SerializeField] private EnemyType _enemyType;
@@ -36,13 +35,12 @@ public class Enemy : MonoBehaviour
     [SerializeField] public SwipeDetection swipeDetection;
     [SerializeField] private bool _isSwipable = false;
 
-    private float _speed = 2.5f;
+    private float _speed;
     private Vector2 _direction = Vector2.down;
 
     public void Initialize()
     {
-        //_health = Random.Range(0, 100);
-        //_speed = Random.Range(1, 10);
+        _speed = Random.Range(4.5f, 6.5f);
 
         if (!_player)
         {
@@ -169,6 +167,7 @@ public class Enemy : MonoBehaviour
     {
         _player.OnEnemyExit(this.gameObject);
         Destroy(gameObject);
+        _player.GivePowerup();
 
         _isSwipable = false;
 
@@ -182,6 +181,7 @@ public class Enemy : MonoBehaviour
             swipeDetection.swipeType = SwipeType.NONE;
             _isSwipable = true;
             _blackBox.SetActive(true);
+            arrowObject.transform.localScale = new Vector3(1.25f, 1.25f, 1f);
 
             _player.OnEnemyEnter(this.gameObject);
         }
