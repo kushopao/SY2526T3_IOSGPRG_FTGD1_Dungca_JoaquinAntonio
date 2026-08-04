@@ -12,20 +12,10 @@ public class ScrollingBackground : MonoBehaviour
 
     private void Awake()
     {
-        //_player = GameManager.Instance.Player;
     }
 
     void Update()
     {
-        //if (_player.isDashing)
-        //{
-        //    speed *= speed;
-        //}
-        //else
-        //{
-        //    speed = baseSpeed;
-        //}
-
         bgRenderer.material.mainTextureOffset += new Vector2(0, speed * Time.deltaTime);
     }
 

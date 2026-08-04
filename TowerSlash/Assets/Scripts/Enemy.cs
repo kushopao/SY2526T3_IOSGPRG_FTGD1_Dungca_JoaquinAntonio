@@ -111,55 +111,62 @@ public class Enemy : MonoBehaviour
 
     private void CheckPlayerSwipe()
     {
-        switch (_enemyType)
+        if (_player._isDashing)
         {
-            case EnemyType.GREEN:
-                if ((int)_arrowType == (int)swipeDetection.swipeType)
-                {
-                    KillEnemy();
-                }
-                break;
-
-            case EnemyType.RED:
-                switch (_arrowType)
-                {
-                    case ArrowType.UP:
-                        if (swipeDetection.swipeType == SwipeType.DOWN)
-                        {
-                            KillEnemy();
-                        }
-                        break;
-
-                    case ArrowType.RIGHT:
-                        if (swipeDetection.swipeType == SwipeType.LEFT)
-                        {
-                            KillEnemy();
-                        }
-                        break;
-
-                    case ArrowType.DOWN:
-                        if (swipeDetection.swipeType == SwipeType.UP)
-                        {
-                            KillEnemy();
-                        }
-                        break;
-
-                    case ArrowType.LEFT:
-                        if (swipeDetection.swipeType == SwipeType.RIGHT)
-                        {
-                            KillEnemy();
-                        }
-                        break;
-                }
-                break;
-            case EnemyType.YELLOW:
-                {
+            KillEnemy();
+        }
+        else
+        {
+            switch (_enemyType)
+            {
+                case EnemyType.GREEN:
                     if ((int)_arrowType == (int)swipeDetection.swipeType)
                     {
                         KillEnemy();
                     }
-                }
-                break;
+                    break;
+
+                case EnemyType.RED:
+                    switch (_arrowType)
+                    {
+                        case ArrowType.UP:
+                            if (swipeDetection.swipeType == SwipeType.DOWN)
+                            {
+                                KillEnemy();
+                            }
+                            break;
+
+                        case ArrowType.RIGHT:
+                            if (swipeDetection.swipeType == SwipeType.LEFT)
+                            {
+                                KillEnemy();
+                            }
+                            break;
+
+                        case ArrowType.DOWN:
+                            if (swipeDetection.swipeType == SwipeType.UP)
+                            {
+                                KillEnemy();
+                            }
+                            break;
+
+                        case ArrowType.LEFT:
+                            if (swipeDetection.swipeType == SwipeType.RIGHT)
+                            {
+                                KillEnemy();
+                            }
+                            break;
+                    }
+                    break;
+                case EnemyType.YELLOW:
+                    {
+                        if ((int)_arrowType == (int)swipeDetection.swipeType)
+                        {
+                            KillEnemy();
+                        }
+                    }
+                    break;
+            }
         }
     }
 
@@ -167,11 +174,15 @@ public class Enemy : MonoBehaviour
     {
         _player.OnEnemyExit(this.gameObject);
         Destroy(gameObject);
+        //Debug.Log("Enemy Killed");
+
         _player.GivePowerup();
 
-        _isSwipable = false;
-
-        Debug.Log("Enemy Killed");
+        if (!_player._isDashing)
+        {
+            _player.FillDashGauge(_player._dashGain);
+            _isSwipable = false;
+        }
     }
 
     public void OnPlayerEnter(Collider2D collision)
