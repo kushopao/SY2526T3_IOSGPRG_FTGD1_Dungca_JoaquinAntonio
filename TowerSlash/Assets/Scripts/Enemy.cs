@@ -38,6 +38,9 @@ public class Enemy : MonoBehaviour
     private float _speed;
     private Vector2 _direction = Vector2.down;
 
+    [SerializeField] private ScoreManager _scoreManager;
+    private float _enemyKillScore = 10f;
+
     public void Initialize()
     {
         _speed = Random.Range(4.5f, 6.5f);
@@ -50,6 +53,10 @@ public class Enemy : MonoBehaviour
         if (!swipeDetection)
         {
             swipeDetection = GameManager.Instance.SwipeDetection;
+        }
+        if (!_scoreManager)
+        {
+            _scoreManager = GameManager.Instance.ScoreManager;
         }
 
         _enemyType = (EnemyType)Random.Range(0, System.Enum.GetValues(typeof(EnemyType)).Length);
@@ -172,9 +179,12 @@ public class Enemy : MonoBehaviour
 
     private void KillEnemy()
     {
+        //Debug.Log("Enemy Killed");
+
         _player.OnEnemyExit(this.gameObject);
         Destroy(gameObject);
-        //Debug.Log("Enemy Killed");
+
+        _scoreManager.AddScore(_enemyKillScore);
 
         _player.GivePowerup();
 
