@@ -9,6 +9,11 @@ public class Bounds : MonoBehaviour
         if (other.gameObject.GetComponent<Unit>())
         {
             Destroy(other.gameObject);
+
+            GameManager.Instance.EnemySpawnArea.spawnedGameObjects.Remove(other.gameObject);
+
+            // if (GameManager.Instance.EnemySpawnArea.spawnedGameObjects.Count <= 0)
+                // Menu Manager
         }
     }
 }

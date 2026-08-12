@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class Obstacle : MonoBehaviour
 {
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D other)
     {
-        if (collision.gameObject.GetComponent<EnemyFSM>())
+        if (other.gameObject.GetComponent<EnemyFSM>())
         {
-            if (collision.gameObject.GetComponent<Unit>().unitType == UnitType.Enemy)
+            if (other.gameObject.GetComponent<Unit>().unitType == UnitType.Enemy)
             {
-                //
+                other.gameObject.GetComponent<EnemyFSM>().ResetWanderPointAndTravelTime();
             }
         }
     }

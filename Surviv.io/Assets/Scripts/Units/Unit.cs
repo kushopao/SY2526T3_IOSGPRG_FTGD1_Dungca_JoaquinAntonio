@@ -13,8 +13,8 @@ public class Unit : MonoBehaviour
 {
     [SerializeField] public UnitType unitType;
 
-    [SerializeField] protected float _currentHP;
-    [SerializeField] private float _maxHP;
+    [SerializeField] public float _currentHP;
+    [SerializeField] public float _maxHP;
 
     [SerializeField] public float movementSpeed;
 
@@ -53,7 +53,7 @@ public class Unit : MonoBehaviour
         }
     }
 
-    private void TakeDamage(float damageTaken)
+    public void TakeDamage(float damageTaken)
     {
         _currentHP  -= damageTaken;
 
